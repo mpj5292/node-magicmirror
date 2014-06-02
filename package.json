@@ -1,0 +1,18 @@
+{
+	"name": "MagigMirror",
+	"version": "0.0.1",
+	"description": "Webserver for a High Tech Mirror",
+	"homepage": "https://github.com/geraldbaeck/node-magicmirror",
+	"license": "MIT",
+	"author": "Gerald Baeck <gerald@baeck.at> (http://dev.baeck.at/)",
+	"private": true,
+	"repository" : { 
+		"type" : "git",
+		"url" : "https://github.com/geraldbaeck/node-magicmirror.git"
+	},
+	"dependencies": {
+		"crypto": "0.x",
+		"mustache": "0.x",
+		"node-static": "0.x"
+	}
+}
