@@ -1,7 +1,7 @@
 MagicMirror
 ===========
 
-This is a port of [MagicMirror](https://github.com/MichMich/MagicMirror) to node.js. The super magic interface of a personal Magic Mirror. More information about this project can be found on my [blog](http://michaelteeuw.nl/tagged/magicmirror).
+This is a port of [MagicMirror](https://github.com/MichMich/MagicMirror) to node.js. The super magic interface of a personal Magic Mirror. More information about this project can be found on this [blog](http://michaelteeuw.nl/tagged/magicmirror).
 
 #Differences to the original project
 
