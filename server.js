@@ -6,6 +6,11 @@ var http = require("http"),
   url = require('url'),
   rq = require('request');
 
+// Setting environment variables
+// see https://www.npmjs.org/package/envy
+var config = require("envy").load(__dirname + "/node.config.json");
+console.log(process.env.NODE_ENV + " detected.");
+
 var view = {
   title: "Magic Mirror",
   random_hash: function () {
@@ -21,7 +26,7 @@ function onRequest(request, response) {
   var pathname = url.parse(request.url).pathname;
   console.log("Pathname: "+pathname);
   if (pathname === "/") {
-    fs.readFile('index.html', 'utf8', function (err, template) {
+    fs.readFile(__dirname + '/index.html', 'utf8', function (err, template) {
       if (err) {
         return console.log(err);
       }
@@ -51,5 +56,5 @@ function onRequest(request, response) {
   console.log("Response ended.");
 }
 
-http.createServer(onRequest).listen(8888);
-console.log("Server has started.");
+http.createServer(onRequest).listen(config.port);
+console.log(process.env.NODE_ENV + " server has started at port " + config.port + ".");

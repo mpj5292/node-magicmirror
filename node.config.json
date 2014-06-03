@@ -1,0 +1,9 @@
+{
+  "environment": "development",
+
+  "development": {
+    "port": 8888
+  },
+
+  "production": {}
+}
