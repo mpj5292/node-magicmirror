@@ -59,7 +59,7 @@ jQuery(document).ready(function($) {
 
 	(function updateCalendarData() {
 		//var cal_data = $.get('http://webtermine.at/?ec3_ical_wien', function() {});
-		new ical_parser('../cal?url='+icalFeed, function(cal) {
+		new ical_parser('http://localhost:8888/proxy?url='+icalFeed, function(cal) {
 			events = cal.getEvents();
 			eventList = [];
 
