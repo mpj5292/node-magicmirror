@@ -12,7 +12,9 @@
 	},
 	"dependencies": {
 		"crypto": "0.x",
+		"envy": "0.x",
 		"mustache": "0.x",
-		"node-static": "0.x"
+		"node-static": "0.x",
+		"request": "2.x"
 	}
 }
