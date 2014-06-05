@@ -2,9 +2,15 @@
 
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
-DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install nodejs npm
+apt-get install git
 
-npm config set registry http://registry.npmjs.org/
-npm install -g npm
-cd /vagrant
-npm install
+# install newest nodejs from repository
+apt-get install python-software-properties -y  # needed to install add-apt-repository command
+add-apt-repository ppa:chris-lea/node.js -y
+apt-get update
+apt-get install nodejs -y
+
+# npm config set registry http://registry.npmjs.org/
+# npm install -g npm
+# cd /vagrant
+# npm install
