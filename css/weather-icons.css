@@ -55,7 +55,7 @@
 .wi-day-cloudy-windy:before {
   content: "\f001";
 }
-.wi-day-cloudy:before {
+.wi-day-cloudy:before, .wi-02d:before {
   content: "\f002";
 }
 .wi-day-fog:before {
@@ -79,7 +79,7 @@
 .wi-day-showers:before {
   content: "\f009";
 }
-.wi-day-snow:before {
+.wi-day-snow:before, .wi-13d:before {
   content: "\f00a";
 }
 .wi-day-sprinkle:before {
@@ -88,7 +88,7 @@
 .wi-day-sunny-overcast:before {
   content: "\f00c";
 }
-.wi-day-sunny:before {
+.wi-day-sunny:before, .wi-01d:before {
   content: "\f00d";
 }
 .wi-day-storm-showers:before {
@@ -100,13 +100,13 @@
 .wi-cloudy-gusts:before {
   content: "\f011";
 }
-.wi-cloudy-windy:before {
+.wi-cloudy-windy:before, .wi-04d:before {
   content: "\f012";
 }
-.wi-cloudy:before {
+.wi-cloudy:before, .wi-03d:before {
   content: "\f013";
 }
-.wi-fog:before {
+.wi-fog:before, .wi-50d:before {
   content: "\f014";
 }
 .wi-hail:before {
@@ -121,10 +121,10 @@
 .wi-rain-wind:before {
   content: "\f018";
 }
-.wi-rain:before {
+.wi-rain:before, .wi-10d:before {
   content: "\f019";
 }
-.wi-showers:before {
+.wi-showers:before, .wi-09d:before {
   content: "\f01a";
 }
 .wi-snow:before {
@@ -136,7 +136,7 @@
 .wi-storm-showers:before {
   content: "\f01d";
 }
-.wi-thunderstorm:before {
+.wi-thunderstorm:before, .wi-11d:before {
   content: "\f01e";
 }
 .wi-windy:before {
@@ -145,7 +145,7 @@
 .wi-night-alt-cloudy-gusts:before {
   content: "\f022";
 }
-.wi-night-alt-cloudy-windy:before {
+.wi-night-alt-cloudy-windy:before, .wi-50n:before {
   content: "\f023";
 }
 .wi-night-alt-hail:before {
@@ -178,7 +178,7 @@
 .wi-night-alt-thunderstorm:before {
   content: "\f02d";
 }
-.wi-night-clear:before {
+.wi-night-clear:before, .wi-01n:before {
   content: "\f02e";
 }
 .wi-night-cloudy-gusts:before {
@@ -187,7 +187,7 @@
 .wi-night-cloudy-windy:before {
   content: "\f030";
 }
-.wi-night-cloudy:before {
+.wi-night-cloudy:before, .wi-02n:before, .wi-03n:before, .wi-04n:before {
   content: "\f031";
 }
 .wi-night-hail:before {
@@ -202,13 +202,13 @@
 .wi-night-rain-wind:before {
   content: "\f035";
 }
-.wi-night-rain:before {
+.wi-night-rain:before, .wi-10n:before {
   content: "\f036";
 }
-.wi-night-showers:before {
+.wi-night-showers:before, .wi-09n:before {
   content: "\f037";
 }
-.wi-night-snow:before {
+.wi-night-snow:before, .wi-13n:before {
   content: "\f038";
 }
 .wi-night-sprinkle:before {
@@ -217,7 +217,7 @@
 .wi-night-storm-showers:before {
   content: "\f03a";
 }
-.wi-night-thunderstorm:before {
+.wi-night-thunderstorm:before, .wi-11n:before {
   content: "\f03b";
 }
 .wi-celcius:before {
