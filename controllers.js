@@ -1,65 +1,76 @@
 var app = angular.module('mirrorApp', ['ngResource', 'angularMoment', 'ngAnimate']);
 
-jQuery.fn.updateWithText = function(text, speed) {
-	var dummy = $('<div/>').html(text);
 
-	if ($(this).html() != dummy.html())
-	{
+// changes the text of an element and fades it in
+// this really needs to get ported to angularjs
+jQuery.fn.updateWithText = function(text, speed) {
+	if ($(this).html() != $('<div/>').html(text)) {
 		$(this).fadeOut(speed/2, function() {
 			$(this).html(text);
-			$(this).fadeIn(speed/2, function() {
-				//done
-			});
+			$(this).fadeIn(speed/2, function() {});
 		});
 	}
 };
 
 
+// displays a message on the center of the screen
+// iterates through messages defined in config.js
 function messageCtrl($scope, $timeout) {
-	// displays a message on the center of the screen
-	// iterates through messages defined in config.js
 	
 	$scope.message = messages[0];
 	$scope.lastmessage = $scope.message;
 
 	var messageSwitch = function() {
+
+		//select random message
 		while ($scope.message === $scope.lastmessage) {
 			$scope.message = messages[Math.floor(Math.random()*messages.length)];
 		}
 
 		$('.message').updateWithText($scope.message, 4000);
-
 		$scope.lastmessage = $scope.message;
-
 		$timeout(messageSwitch, 30000);
 	};
 	messageSwitch();
 }
 
 
+// displays headlines from an RSS newsfeed
 function newsCtrl($scope, $resource, $timeout) {
+
 	// convert an RSS feed to a JSON object via google API
 	$scope.news = $resource('http://ajax.googleapis.com/ajax/services/feed/load',
 		{q: newsfeed, num: 10, callback: 'JSON_CALLBACK', v: '1.0'},
 		{get:{method:'JSONP'}});
 
-	// the index of the currently displayed neewsitem
-	$scope.newsIndex = 0;
+	var getHeadlines = function() {
+		console.log("Getting headlines from "+newsfeed);
 
-	$scope.news.get(function(currNews) {
-		var newsSwitch = function() {
-			// assign new headline
-			if (currNews.responseData.feed.entries[$scope.newsIndex] !== undefined)
-				// this is a shame, i really do not know how to do a fade in/out in agularjs only
-				$('.news').updateWithText(currNews.responseData.feed.entries[$scope.newsIndex].title, 4000);
-				$timeout(newsSwitch, 10000);
-			$scope.newsIndex = ($scope.newsIndex === currNews.responseData.feed.entries.length ? 0 : $scope.newsIndex+1);
-		};
-		newsSwitch();
-	});
+		// the index of the currently displayed newsitem
+		$scope.newsIndex = 0;
+
+		// iterate through the list of headlines
+		// and display them
+		$scope.news.get(function(currNews) {
+			var newsSwitch = function() {
+				console.log("Switching Headline.");
+				// assign new headline
+				if (currNews.responseData.feed.entries[$scope.newsIndex] !== undefined) {
+					$('.news').updateWithText(currNews.responseData.feed.entries[$scope.newsIndex].title, 4000);
+					$scope.newsIndex++;
+					$timeout(newsSwitch, 20000);
+				}
+				else {
+					$timeout(getHeadlines, 20000);
+				}
+			};
+			newsSwitch();
+		});
+	};
+	getHeadlines();
 }
 
-
+// shows the items from an ical feed
 function calCtrl($scope) {
 	new ical_parser('http://localhost:8888/proxy?url='+icalFeed, function(cal) {
 		var raw_events = cal.getEvents();
@@ -82,6 +93,7 @@ function calCtrl($scope) {
 }
 
 
+// show the current date and time
 function dateCtrl($scope) {
 	setInterval(function() {
        $scope.$apply(function() {
@@ -91,59 +103,72 @@ function dateCtrl($scope) {
 }
 
 
-function WeatherCtrl($scope, $resource) {
+// shows the current weather and the forecast
+function WeatherCtrl($scope, $resource, $timeout) {
 
 	$scope.weather = $resource('http://api.openweathermap.org/data/2.5/:action',
 		{action: 'weather', q: weatherParams.q, units: weatherParams.units, lang: weatherParams.lang, callback: 'JSON_CALLBACK'},
 		{get:{method:'JSONP'}});
 
-	$scope.weather.get({action: 'weather'}, function(weatherNow) {
-		var now = new Date();
+	// get the current weather data
+	var currWeather = function() {
+		console.log("Getting current weather.");
+		$scope.weather.get({action: 'weather'}, function(weatherNow) {
+			var now = new Date();
 
-		// bind weather data
-		$scope.weatherNow = weatherNow;
+			// bind weather data
+			$scope.weatherNow = weatherNow;
 
-		// get time of next sunrise or sunset
-		$scope.weatherNow.sun = {};
-		if (weatherNow.sys.sunrise*1000 < now && weatherNow.sys.sunset*1000 > now) {
-			$scope.weatherNow.sun.nextStatus = 'set';
-			$scope.weatherNow.sun.nextStatusTime = weatherNow.sys.sunset;
-		}
-		else {
-			$scope.weatherNow.sun.nextStatus = 'rise';
-			$scope.weatherNow.sun.nextStatusTime = weatherNow.sys.sunrise;
-		}
-
-	});
-
-	$scope.weather.get({action: 'forecast'}, function(weatherForecast) {
-
-		// iterate through the raw data
-		// and determine min and max temp for a day
-		$scope.weatherForecast = {};
-		$scope.totalForecasts = 0;
-		for (var i in weatherForecast.list) {
-			var forecast = weatherForecast.list[i];
-			var dateKey  = forecast.dt_txt.substring(0, 10);
-
-			if ($scope.weatherForecast[dateKey] === undefined) {
-				$scope.weatherForecast[dateKey] = {
-					'timestamp': forecast.dt * 1000,
-					'temp_min':  forecast.main.temp,
-					'temp_max':  forecast.main.temp,
-					'icon':      forecast.weather[0].icon
-				};
-				$scope.totalForecasts++;
+			// get time of next sunrise or sunset
+			$scope.weatherNow.sun = {};
+			if (weatherNow.sys.sunrise*1000 < now && weatherNow.sys.sunset*1000 > now) {
+				$scope.weatherNow.sun.nextStatus = 'set';
+				$scope.weatherNow.sun.nextStatusTime = weatherNow.sys.sunset;
 			}
 			else {
-				$scope.weatherForecast[dateKey]['temp_min'] = (forecast.main.temp < $scope.weatherForecast[dateKey]['temp_min']) ? forecast.main.temp : $scope.weatherForecast[dateKey]['temp_min'];
-				$scope.weatherForecast[dateKey]['temp_max'] = (forecast.main.temp > $scope.weatherForecast[dateKey]['temp_max']) ? forecast.main.temp : $scope.weatherForecast[dateKey]['temp_max'];
-				if (forecast.dt_txt.substring(11, 19) === '12:00:00') {
-					$scope.weatherForecast[dateKey]['icon'] = forecast.weather[0].icon;
-				}
-				
+				$scope.weatherNow.sun.nextStatus = 'rise';
+				$scope.weatherNow.sun.nextStatusTime = weatherNow.sys.sunrise;
 			}
-		}
-	});
+
+		});
+		$timeout(currWeather, 10*60*1000);  // refresh every 10 minutes
+	};
+	currWeather();
+
+	// get the weather forcast for the next days
+	var forecast = function() {
+		console.log("Getting weather forecast.");
+		$scope.weather.get({action: 'forecast'}, function(weatherForecast) {
+
+			// iterate through the raw data
+			// and determine min and max temp for a day
+			$scope.weatherForecast = {};
+			$scope.totalForecasts = 0;
+			for (var i in weatherForecast.list) {
+				var forecast = weatherForecast.list[i];
+				var dateKey  = forecast.dt_txt.substring(0, 10);
+
+				if ($scope.weatherForecast[dateKey] === undefined) {
+					$scope.weatherForecast[dateKey] = {
+						'timestamp': forecast.dt * 1000,
+						'temp_min':  forecast.main.temp,
+						'temp_max':  forecast.main.temp,
+						'icon':      forecast.weather[0].icon
+					};
+					$scope.totalForecasts++;
+				}
+				else {
+					$scope.weatherForecast[dateKey]['temp_min'] = (forecast.main.temp < $scope.weatherForecast[dateKey]['temp_min']) ? forecast.main.temp : $scope.weatherForecast[dateKey]['temp_min'];
+					$scope.weatherForecast[dateKey]['temp_max'] = (forecast.main.temp > $scope.weatherForecast[dateKey]['temp_max']) ? forecast.main.temp : $scope.weatherForecast[dateKey]['temp_max'];
+					if (forecast.dt_txt.substring(11, 19) === '12:00:00') {
+						$scope.weatherForecast[dateKey]['icon'] = forecast.weather[0].icon;
+					}
+					
+				}
+			}
+		});
+		$timeout(forecast, 30*60*1000);  // refresh every 30 minutes
+	};
+	forecast();
 
 }
