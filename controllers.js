@@ -17,16 +17,17 @@ jQuery.fn.updateWithText = function(text, speed) {
 // iterates through messages defined in config.js
 function messageCtrl($scope, $timeout) {
 
-	$scope.messageShow = messages.show;
+	$scope.messagesShow = messages.show;
 	
 	$scope.message = messages.data[0];
 	$scope.lastmessage = $scope.message;
 
 	var messageSwitch = function() {
+		console.log("Switching message.");
 
 		//select random message
 		while ($scope.message === $scope.lastmessage) {
-			$scope.message = messages.data[Math.floor(Math.random()*messages.length)];
+			$scope.message = messages.data[Math.floor(Math.random()*messages.data.length)];
 		}
 
 		$('.message').updateWithText($scope.message, 4000);
@@ -145,7 +146,7 @@ function WeatherCtrl($scope, $resource, $timeout) {
 			}
 
 		});
-		$timeout(currWeather, 10*60*1000);  // refresh every 10 minutes
+		$timeout(currWeather, weatherParams.weatherRefresh);  // refresh every 10 minutes
 	};
 	currWeather();
 
@@ -181,7 +182,7 @@ function WeatherCtrl($scope, $resource, $timeout) {
 				}
 			}
 		});
-		$timeout(forecast, 30*60*1000);  // refresh every 30 minutes
+		$timeout(forecast, weatherParams.forecastRefresh);  // refresh every 30 minutes
 	};
 	forecast();
 

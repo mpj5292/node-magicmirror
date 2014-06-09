@@ -7,7 +7,9 @@ var lang = window.navigator.language;
 var weatherParams = {
     'q': 'Vienna,Austria',
     'units': 'metric',
-    'lang': lang
+    'lang': lang,
+    'weatherRefresh': 600000,  // duration to refresh the current weather  // 10 min
+    'forecastRefresh': 18000000  // duration to refresh the current forecast  // 30 min
 };
 
 // compliments:
