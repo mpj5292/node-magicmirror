@@ -11,18 +11,27 @@ var weatherParams = {
 };
 
 // compliments:
-var messages = [
-    'Hallo, Mausl!',
-    'Seas!',
-    'Hallo, es ist schon morgen in der Früh!',
-    'Wow, you look hot!',
-    'Looking good today!',
-    'You look nice!',
-    'Enjoy your day!'
-];
+var messages = {
+    'show': true,
+    'refresh': 60000,   // duration to display one headline (millisec)  // 60 sec
+    'data': [
+        'Hallo, Mausl!',
+        'Seas!',
+        'Hallo, es ist schon morgen in der Früh!',
+        'Awesome dude!',
+        'Looking good today!',
+        'You look nice!',
+        'Enjoy your day!'
+    ]
+};
 
 // feed to display the heandlines in the bottom
-var newsfeed = 'http://derStandard.at/?page=rss&ressort=Seite1';
+var newsfeed = {
+    'show': true,
+    'url': 'http://derStandard.at/?page=rss&ressort=Seite1',
+    'limit': 10,  // number of headlines to pull
+    'refresh': 20000  // duration to display one headline (millisec)  // 20 sec
+};
 
 // ical feed
 var icalFeed = 'http://webtermine.at/?ec3_ical_wien';

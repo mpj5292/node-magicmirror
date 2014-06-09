@@ -16,20 +16,22 @@ jQuery.fn.updateWithText = function(text, speed) {
 // displays a message on the center of the screen
 // iterates through messages defined in config.js
 function messageCtrl($scope, $timeout) {
+
+	$scope.messageShow = messages.show;
 	
-	$scope.message = messages[0];
+	$scope.message = messages.data[0];
 	$scope.lastmessage = $scope.message;
 
 	var messageSwitch = function() {
 
 		//select random message
 		while ($scope.message === $scope.lastmessage) {
-			$scope.message = messages[Math.floor(Math.random()*messages.length)];
+			$scope.message = messages.data[Math.floor(Math.random()*messages.length)];
 		}
 
 		$('.message').updateWithText($scope.message, 4000);
 		$scope.lastmessage = $scope.message;
-		$timeout(messageSwitch, 30000);
+		$timeout(messageSwitch, messages.refresh);
 	};
 	messageSwitch();
 }
@@ -40,32 +42,39 @@ function newsCtrl($scope, $resource, $timeout) {
 
 	// convert an RSS feed to a JSON object via google API
 	$scope.news = $resource('http://ajax.googleapis.com/ajax/services/feed/load',
-		{q: newsfeed, num: 10, callback: 'JSON_CALLBACK', v: '1.0'},
+		{q: newsfeed.url, num: newsfeed.limit, callback: 'JSON_CALLBACK', v: '1.0'},
 		{get:{method:'JSONP'}});
 
+	$scope.newsfeedShow = newsfeed.show;
+
 	var getHeadlines = function() {
-		console.log("Getting headlines from "+newsfeed);
+		console.log("Getting headlines from " + newsfeed.url);
 
 		// the index of the currently displayed newsitem
 		$scope.newsIndex = 0;
 
 		// iterate through the list of headlines
 		// and display them
-		$scope.news.get(function(currNews) {
-			var newsSwitch = function() {
-				console.log("Switching Headline.");
-				// assign new headline
-				if (currNews.responseData.feed.entries[$scope.newsIndex] !== undefined) {
-					$('.news').updateWithText(currNews.responseData.feed.entries[$scope.newsIndex].title, 4000);
-					$scope.newsIndex++;
-					$timeout(newsSwitch, 20000);
-				}
-				else {
-					$timeout(getHeadlines, 20000);
-				}
-			};
-			newsSwitch();
-		});
+		if (newsfeed.show) {
+			$scope.news.get(function(currNews) {
+				var newsSwitch = function() {
+					console.log("Switching Headline.");
+					// assign new headline
+					if (currNews.responseData.feed.entries[$scope.newsIndex] !== undefined) {
+						$('.news').updateWithText(currNews.responseData.feed.entries[$scope.newsIndex].title, 4000);
+						$scope.newsIndex++;
+						$timeout(newsSwitch, newsfeed.refresh);
+					}
+					else {
+						$timeout(getHeadlines, newsfeed.refresh);
+					}
+				};
+				newsSwitch();
+			});
+		}
+		else {
+			$timeout(getHeadlines, newsfeed.refresh);
+		}
 	};
 	getHeadlines();
 }

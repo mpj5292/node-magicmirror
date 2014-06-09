@@ -50,11 +50,11 @@
 		<div class="center-ver center-hor">
 			<div class="dishwasher light"></div>
 		</div>
-		<div class="lower-third center-hor" ng-controller="messageCtrl">
+		<div class="lower-third center-hor" ng-controller="messageCtrl" ng-show="{{messageShow}}">
 			<div class="message light"></div>
 		</div>
 		<div class="bottom center-hor" ng-controller="newsCtrl">
-			<div class="news medium" newsItem="true">{{newsHeadline}}</div>
+			<div class="news medium" newsItem="true" ng-show="{{newsfeedShow}}">{{newsHeadline}}</div>
 		</div>
 
 		<script src="js/jquery.js"></script>
