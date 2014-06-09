@@ -158,7 +158,6 @@ function WeatherCtrl($scope, $resource, $timeout) {
 			// iterate through the raw data
 			// and determine min and max temp for a day
 			$scope.weatherForecast = {};
-			$scope.totalForecasts = 0;
 			for (var i in weatherForecast.list) {
 				var forecast = weatherForecast.list[i];
 				var dateKey  = forecast.dt_txt.substring(0, 10);
@@ -170,7 +169,6 @@ function WeatherCtrl($scope, $resource, $timeout) {
 						'temp_max':  forecast.main.temp,
 						'icon':      forecast.weather[0].icon
 					};
-					$scope.totalForecasts++;
 				}
 				else {
 					$scope.weatherForecast[dateKey]['temp_min'] = (forecast.main.temp < $scope.weatherForecast[dateKey]['temp_min']) ? forecast.main.temp : $scope.weatherForecast[dateKey]['temp_min'];
