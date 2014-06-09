@@ -5,13 +5,13 @@ var lang = window.navigator.language;
 
 //change weather params here:
 var weatherParams = {
-    'q':'Vienna,Austria',
-    'units':'metric',
-    'lang':lang
+    'q': 'Vienna,Austria',
+    'units': 'metric',
+    'lang': lang
 };
 
 // compliments:
-var compliments = [
+var messages = [
     'Hallo, Mausl!',
     'Seas!',
     'Hallo, es ist schon morgen in der Früh!',
