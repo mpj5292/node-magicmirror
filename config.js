@@ -13,7 +13,7 @@ var weatherParams = {
 // compliments:
 var messages = {
     'show': true,
-    'refresh': 60000,   // duration to display one headline (millisec)  // 60 sec
+    'refresh': 60000,   // duration to display one message (millisec)  // 60 sec
     'data': [
         'Hallo, Mausl!',
         'Seas!',
@@ -34,4 +34,7 @@ var newsfeed = {
 };
 
 // ical feed
-var icalFeed = 'http://webtermine.at/?ec3_ical_wien';
+var icalFeed = {
+    'url': 'http://webtermine.at/?ec3_ical_wien',
+    'refresh': 600000  // duration to refresh the calendar (millisec)  // 10 min
+};

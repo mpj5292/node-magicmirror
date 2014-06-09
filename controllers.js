@@ -80,25 +80,30 @@ function newsCtrl($scope, $resource, $timeout) {
 }
 
 // shows the items from an ical feed
-function calCtrl($scope) {
-	new ical_parser('http://localhost:8888/proxy?url='+icalFeed, function(cal) {
-		var raw_events = cal.getEvents();
-		$scope.events = [];
-		for (var i = 0; i < raw_events.length; i++) {
-			// this is really ugly bad coding, but it works
-			// parsing the date from ical to a js date
-			// is there really no fromTimeString conversion like in python?
-			raw_events[i]['timestamp'] = new Date(Date.parse(raw_events[i]['DTSTART;VALUE=DATE-TIME'].substring(0, 4)+'-'+
-				raw_events[i]['DTSTART;VALUE=DATE-TIME'].substring(4, 6)+'-'+
-				raw_events[i]['DTSTART;VALUE=DATE-TIME'].substring(6, 8)+
-				raw_events[i]['DTSTART;VALUE=DATE-TIME'].substring(8, 11)+':'+
-				raw_events[i]['DTSTART;VALUE=DATE-TIME'].substring(11, 13)+':'+
-				raw_events[i]['DTSTART;VALUE=DATE-TIME'].substring(13, 16)));
-			if (raw_events[i]['timestamp'] > new Date(Date.now())) {
-				$scope.events.push(raw_events[i]);
+function calCtrl($scope, $timeout) {
+	var cal = function() {
+		console.log("Getting calendar data.");
+		new ical_parser('http://localhost:8888/proxy?url='+icalFeed.url, function(raw_cal) {
+			var raw_events = raw_cal.getEvents();
+			$scope.events = [];
+			for (var i = 0; i < raw_events.length; i++) {
+				// this is really ugly bad coding, but it works
+				// parsing the date from ical to a js date
+				// is there really no fromTimeString conversion like in python?
+				raw_events[i]['timestamp'] = new Date(Date.parse(raw_events[i]['DTSTART;VALUE=DATE-TIME'].substring(0, 4)+'-'+
+					raw_events[i]['DTSTART;VALUE=DATE-TIME'].substring(4, 6)+'-'+
+					raw_events[i]['DTSTART;VALUE=DATE-TIME'].substring(6, 8)+
+					raw_events[i]['DTSTART;VALUE=DATE-TIME'].substring(8, 11)+':'+
+					raw_events[i]['DTSTART;VALUE=DATE-TIME'].substring(11, 13)+':'+
+					raw_events[i]['DTSTART;VALUE=DATE-TIME'].substring(13, 16)));
+				if (raw_events[i]['timestamp'] > new Date(Date.now())) {
+					$scope.events.push(raw_events[i]);
+				}
 			}
-		}
-	});
+		});
+		$timeout(cal, icalFeed.refresh);
+	};
+	cal();
 }
 
 
