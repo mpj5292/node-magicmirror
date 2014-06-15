@@ -13,6 +13,13 @@ jQuery.fn.updateWithText = function(text, speed) {
 };
 
 
+function importantMsgCtrl($scope, socket) {
+	socket.on('init', function (data) {
+		$scope.importantMsg = data.msg;
+	});
+}
+
+
 // displays a message on the center of the screen
 // iterates through messages defined in config.js
 function messageCtrl($scope, $timeout) {
