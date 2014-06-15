@@ -2,7 +2,7 @@
 
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
-apt-get install git -y
+apt-get install git python-pip -y
 
 # install newest nodejs from repository
 apt-get install python-software-properties -y  # needed to install add-apt-repository command
