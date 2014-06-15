@@ -11,7 +11,7 @@ This is a port of [MagicMirror](https://github.com/MichMich/MagicMirror) to node
 
 #TODO
 
-* Port jquery to angular.js.
+* Port remaining jquery to angular.js.
 * Add a proximity sensor to turn the screen only on if someone is on front of the mirror
 * Add a button to select a news headline and display the whole text
 * Custimized and selectable profiles for each family member
