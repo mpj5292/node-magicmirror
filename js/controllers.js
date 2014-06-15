@@ -14,7 +14,7 @@ jQuery.fn.updateWithText = function(text, speed) {
 
 
 function importantMsgCtrl($scope, socket) {
-	socket.on('init', function (data) {
+	socket.on('importantMsg', function (data) {
 		$scope.importantMsg = data.msg;
 	});
 }
