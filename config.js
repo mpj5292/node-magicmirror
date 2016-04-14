@@ -1,15 +1,16 @@
 // for navigator language
 var lang = window.navigator.language;
 // you can change the language
-// var lang = 'en';
+var lang = 'en';
 
 //change weather params here:
 var weatherParams = {
-    'q': 'Vienna,Austria',
-    'units': 'metric',
-    'lang': lang,
+    'id': '4994358',
+    'units': 'imperial',
+    //'lang': lang,
     'weatherRefresh': 600000,  // duration to refresh the current weather  // 10 min
-    'forecastRefresh': 18000000  // duration to refresh the current forecast  // 30 min
+    'forecastRefresh': 18000000,  // duration to refresh the current forecast  // 30 min
+
 };
 
 // compliments:
@@ -17,13 +18,8 @@ var messages = {
     'show': true,
     'refresh': 60000,   // duration to display one message (millisec)  // 60 sec
     'data': [
-        'Hallo, Mausl!',
-        'Seas!',
-        'Hallo, es ist schon morgen in der Früh!',
-        'Awesome dude!',
-        'Looking good today!',
-        'You look nice!',
-        'Enjoy your day!'
+        'Hi, Matt',
+        'You look nice!'
     ]
 };
 

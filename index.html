@@ -10,10 +10,10 @@
 	<body>
 		<div class="top left">
 			<div ng-controller="dateCtrl">
-				<div class="date small dimmed">{{currDate | date:'EEEE, d. MMMM yyyy'}}</div>
-				<div class="time">{{currDate | date:'HH:mm'}}<span class="sec">{{currDate | date:'ss'}}</span></div>
+				<div class="date small dimmed">{{currDate | date:'fullDate'}}</div>
+				<div class="time">{{currDate | date:'shortTime'}}<span class="sec">{{currDate | date:'ss'}}</span></div>
 			</div>
-			<div class="calendar xxsmall" style="display: block;" ng-controller="calCtrl">
+			<!--<div class="calendar xxsmall" style="display: block;" ng-controller="calCtrl">
 				<table class="xsmall calendar-table">
 					<tbody>
 						<tr style="opacity: {{1 - $index*(1 / events.length)}};" ng-repeat="event in events | orderBy:'timestamp'">
@@ -22,14 +22,14 @@
 						</tr>
 					</tbody>
 				</table>
-			</div>
+			</div>-->
 		</div>
 
 		<div class="top right" ng-controller="WeatherCtrl">
 			<div class="windsun small dimmed" style="display: block;">
-				<span class="wi xdimmed wi-sprinkles"></span> {{weatherNow.main.humidity}}
-				<span class="wi xdimmed wi-strong-wind"></span> {{weatherNow.wind.speed | number:1}} 
-				<span class="wi xdimmed wi-sun{{weatherNow.sun.nextStatus}}"></span> {{weatherNow.sun.nextStatusTime * 1000 | date:'HH:mm'}}
+				<span class="wi xdimmed wi-sprinkles"></span> {{weatherNow.main.humidity}}%
+				<span class="wi xdimmed wi-strong-wind"></span> {{weatherNow.wind.speed | number:1}}mph
+				<span class="wi xdimmed wi-sun{{weatherNow.sun.nextStatus}}"></span> {{weatherNow.sun.nextStatusTime * 1000 | date:'shortTime'}}
 			</div>
 			<div class="temp" style="display: block;">
 				<span class="icon dimmed wi wi-{{weatherNow.weather[0].icon}}"></span>{{weatherNow.main.temp | number:1}}°
@@ -39,6 +39,7 @@
 					<tbody>
 						<tr style="opacity: {{1 - $index*(1 / totalForecasts)}};"  ng-repeat="fc in weatherForecast">
 							<td class="forecast-day">{{fc.timestamp | date:'EEE'}} </td>
+                            <td class="forecast-temp-min">{{fc.temp_min | number:0}}°</td>
 							<td class="forecast-temp-max">{{fc.temp_max | number:0}}°</td>
 							<td class="forecast-icon"><span class="wi xdimmed wi-{{fc.icon}}"></span></td>
 						</tr>
@@ -53,18 +54,17 @@
 		<div class="lower-third center-hor" ng-controller="messageCtrl" ng-show="{{messagesShow}}">
 			<div class="message light"></div>
 		</div>
-		<div class="bottom center-hor" ng-controller="newsCtrl">
+		<!--<div class="bottom center-hor" ng-controller="newsCtrl">
 			<div class="news medium" newsItem="true" ng-show="{{newsfeedShow}}">{{newsHeadline}}</div>
-		</div>
+		</div>-->
 
 		<script src="js/jquery.js"></script>
 		<script src="js/ical_parser.js"></script>
-		<script src="js/moment-with-langs.min.js"></script>
+		<!--<script src="js/moment-with-langs.min.js"></script>-->
 		<script src="config.js"></script>
 		<script src="http://code.angularjs.org/1.2.9/angular.min.js"></script>
 		<script src="http://code.angularjs.org/1.2.9/angular-resource.min.js"></script>
 		<script src="http://code.angularjs.org/1.2.9/angular-animate.min.js"></script>
-		<script src="js/angular-locale_de-at.js"></script>
 		<script src="js/angular-moment.min.js"></script>
   		<script src="controllers.js"></script>
 	</body> 

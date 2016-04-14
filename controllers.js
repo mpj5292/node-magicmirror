@@ -122,7 +122,7 @@ function dateCtrl($scope) {
 function WeatherCtrl($scope, $resource, $timeout) {
 
 	$scope.weather = $resource('http://api.openweathermap.org/data/2.5/:action',
-		{action: 'weather', q: weatherParams.q, units: weatherParams.units, lang: weatherParams.lang, callback: 'JSON_CALLBACK'},
+		{action: 'weather', id: weatherParams.id, units: weatherParams.units, appid: weatherParams.appid, callback: 'JSON_CALLBACK'},
 		{get:{method:'JSONP'}});
 
 	// get the current weather data
